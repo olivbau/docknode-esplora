@@ -30,7 +30,6 @@ services:
       - '-rpcport=8332'
       - '-rpcuser=bitcoinrpc'
       - '-rpcpassword=bitcoinrpc'
-      - '-help'
     networks:
       - docknode-btc
 
