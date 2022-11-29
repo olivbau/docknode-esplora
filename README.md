@@ -1,4 +1,4 @@
-# Docknode ETH
+# Docknode BTC
 
 ## Metrics
 
@@ -18,8 +18,8 @@ apt install git
 
 1. Clone the repository and
 ```bash
-git clone https://github.com/olivbau/docknode-apt.git
-cd docknode-apt
+git clone https://github.com/olivbau/docknode-btc.git
+cd docknode-btc
 ```
 
 2. Configure environement variables
