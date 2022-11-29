@@ -37,15 +37,13 @@ nano .env
 3. Setup UFW
 ```bash
 ufw allow ssh
-ufw deny 8080
+ufw deny 8332
 ufw enable
 ```
 
 4. Run
 ```bash
-curl -o ./aptos/genesis.blob https://raw.githubusercontent.com/aptos-labs/aptos-networks/main/mainnet/genesis.blob
-curl -o ./aptos/waypoint.txt https://raw.githubusercontent.com/aptos-labs/aptos-networks/main/mainnet/waypoint.txt
 docker compose up -d --pull always
-docker logs -f fullnode --since 1m
+docker logs -f bitcoind --since 1m
 docker compose down
 ```
