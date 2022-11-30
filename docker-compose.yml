@@ -16,8 +16,8 @@ services:
     hostname: bitcoind
     restart: unless-stopped
     ports:
-      - 8333:8333/tcp
-      - 8332:8332
+      - "8333:8333/tcp"
+      - "8332:8332"
     volumes:
       - bitcoind_data:/bitcoin/.bitcoin
     command:
