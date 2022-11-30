@@ -17,8 +17,7 @@ services:
     restart: unless-stopped
     ports:
       - 8333:8333/tcp
-    expose:
-      - 8332
+      - 8332:8332
     volumes:
       - bitcoind_data:/bitcoin/.bitcoin
     command:
@@ -29,8 +28,8 @@ services:
       - '-printtoconsole'
       - '-disablewallet'
       - '-rpcport=8332'
-      - '-rpcuser=bitcoinrpc'
-      - '-rpcpassword=password'
+      - '-rpcuser=bitcoinrpcTT'
+      - '-rpcpassword=passwordTT'
     networks:
       - docknode-btc
 
