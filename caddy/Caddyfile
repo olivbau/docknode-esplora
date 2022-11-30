@@ -2,7 +2,9 @@
         basicauth /* {
                 {$BASIC_AUTH_USERS}
         }
-        reverse_proxy bitcoinrpcTT:passwordTT@bitcoind:8332
+        reverse_proxy bitcoind:8332 {
+                header_up Authorization 'Basic Zm9vOnRkaGdHenZQNkJKd19waUZHSGg1SkxuUVd5V2Qyd2NFeEhDd0tUbmthWW89'
+        }
 }
 
 {$HOST}:9100 {
