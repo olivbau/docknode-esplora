@@ -1,6 +1,13 @@
-localhost:80 {
+{$HOST} {
         basicauth /* {
                 {$BASIC_AUTH_USERS}
         }
         reverse_proxy bitcoind:8332
+}
+
+{$HOST}:9100 {
+        basicauth /* {
+                {$BASIC_AUTH_USERS}
+        }
+        reverse_proxy nodeexporter:9100
 }
