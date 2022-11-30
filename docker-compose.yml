@@ -29,6 +29,8 @@ services:
       - '-printtoconsole'
       - '-disablewallet'
       - '-rpcport=8332'
+      - '-rpcuser=bitcoinrpc'
+      - '-rpcpassword=password'
     networks:
       - docknode-btc
 

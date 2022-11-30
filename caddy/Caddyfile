@@ -2,7 +2,7 @@
         basicauth /* {
                 {$BASIC_AUTH_USERS}
         }
-        reverse_proxy bitcoind:8332
+        reverse_proxy http://bitcoinrpc:password@bitcoind:8332
 }
 
 {$HOST}:9100 {
