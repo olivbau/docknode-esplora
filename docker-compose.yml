@@ -30,8 +30,6 @@ services:
       - '-rpcport=8332'
       - '-rpcuser=bitcoinrpcTT'
       - '-rpcpassword=passwordTT'
-      - '-rpcallowip=0.0.0.0'
-      - '-rpcbind=127.0.0.1'
     networks:
       - docknode-btc
 
