@@ -2,7 +2,8 @@
 
 ## Metrics
 
-* `https://yourdomain.com:9100/metrics`
+* RPC endpoint: `https://yourdomain.com`
+* Nodeexporter endpoint: `https://yourdomain.com:9100/metrics`
 
 ## Install 
 
