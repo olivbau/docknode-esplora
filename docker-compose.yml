@@ -8,12 +8,12 @@ volumes:
   bitcoind_data: {}
   caddy_data: {}
   caddy_config: {}
+  mempooldb_data: {}
+  mempoolapi_cache: {}
 
 services:
   bitcoind:
     image: "lncm/bitcoind:v24.0"
-    container_name: bitcoind
-    hostname: bitcoind
     restart: on-failure
     ports:
       - "8333:8333/tcp"
@@ -22,7 +22,6 @@ services:
     volumes:
       - bitcoind_data:/data/.bitcoin
     command:
-      - '-reindex'
       - '-chain=main'
       - '-txindex'
       - '-disablewallet'
@@ -34,9 +33,51 @@ services:
     networks:
       - docknode-btc
 
+  mempoolapi:
+    user: root
+    environment:
+      MEMPOOL_BACKEND: "none"
+      CORE_RPC_HOST: "bitcoind"
+      CORE_RPC_PORT: "8332"
+      CORE_RPC_USERNAME: "foo"
+      CORE_RPC_PASSWORD: "tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
+      DATABASE_ENABLED: "true"
+      DATABASE_HOST: "mempooldb"
+      DATABASE_DATABASE: "mempool"
+      DATABASE_USERNAME: "mempool"
+      DATABASE_PASSWORD: "mempool"
+      STATISTICS_ENABLED: "true"
+    image: mempool/backend:latest
+    restart: on-failure
+    stop_grace_period: 45s
+    command: "./wait-for-it.sh mempooldb:3306 --timeout=720 --strict -- ./start.sh"
+    expose:
+      - 8999
+    volumes:
+      - mempoolapi_cache:/backend/cache
+    depends_on:
+      - mempooldb
+    networks:
+      - docknode-btc
+
+  mempooldb:
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: "mempool"
+      MYSQL_USER: "mempool"
+      MYSQL_PASSWORD: "mempool"
+      MYSQL_ROOT_PASSWORD: "admin"
+    image: mariadb:10.9.4
+    stop_grace_period: 1m
+    expose:
+      - 3306
+    volumes:
+      - mempooldb_data:/var/lib/mysql
+    networks:
+      - docknode-btc
+
   nodeexporter:
     image: prom/node-exporter:v1.4.0
-    container_name: nodeexporter
     restart: unless-stopped
     volumes:
       - /proc:/host/proc:ro
@@ -54,13 +95,13 @@ services:
 
   caddy:
     image: caddy:2-alpine
-    container_name: caddy
     depends_on:
       - bitcoind
     ports:
       - "80:80"
       - "443:443"
       - "9100:9100"
+      - "9102:9102"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
