@@ -22,7 +22,7 @@ services:
     volumes:
       - bitcoind_data:/data/.bitcoin
     command:
-      - '-reindex-chainstate'
+      - '-reindex'
       - '-chain=main'
       - '-txindex'
       - '-coinstatsindex'
