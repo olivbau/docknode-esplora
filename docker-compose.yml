@@ -25,7 +25,6 @@ services:
       - '-reindex'
       - '-chain=main'
       - '-txindex'
-      - '-coinstatsindex'
       - '-disablewallet'
       - '-port=8333'
       - '-rpcport=8332'
