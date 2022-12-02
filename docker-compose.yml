@@ -22,10 +22,9 @@ services:
     volumes:
       - bitcoind_data:/data/.bitcoin
     command:
-      - '-reindex'
+      - '-reindex-chainstate'
       - '-chain=main'
       - '-txindex'
-      - '-coinstatsindex'
       - '-disablewallet'
       - '-port=8333'
       - '-rpcport=8332'
