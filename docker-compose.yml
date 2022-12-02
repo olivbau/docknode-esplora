@@ -5,11 +5,11 @@ networks:
     driver: bridge
 
 volumes:
-  bitcoind_data: {}
-  caddy_data: {}
-  caddy_config: {}
-  mempooldb_data: {}
-  mempoolapi_cache: {}
+  bitcoind_data:
+  caddy_data:
+  caddy_config:
+  mempooldb_data:
+  mempoolapi_cache:
 
 services:
   bitcoind:
