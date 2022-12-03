@@ -11,6 +11,7 @@ volumes:
   mempooldb_data:
   mempoolapi_cache:
   electrs_data:
+  electrs_db:
 
 services:
   bitcoind:
@@ -91,6 +92,7 @@ services:
       - ./electrs/config.toml:/electrs-config.toml
       - bitcoind_data:/bitcoin
       - electrs_data:/data
+      - electrs_db:/db
     networks:
       - docknode-btc
 
