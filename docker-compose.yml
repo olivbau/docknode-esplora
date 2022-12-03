@@ -9,6 +9,8 @@ volumes:
   caddy_data:
   caddy_config:
   electrs_data:
+  mariadb_data:
+  mempoolapi_data:
 
 services:
   bitcoind:
@@ -22,6 +24,7 @@ services:
       - bitcoind_data:/data/.bitcoin
     command:
       - '-chain=main'
+      - '-printtoconsole=0'
       - '-server'
       - '-txindex'
       - '-disablewallet'
@@ -49,6 +52,51 @@ services:
     volumes:
       - bitcoind_data:/bitcoin
       - electrs_data:/data
+    networks:
+      - docknode-btc
+
+  mempoolapi:
+    environment:
+      MEMPOOL_BACKEND: "electrum"
+      ELECTRUM_HOST: "electrs"
+      ELECTRUM_PORT: "50001"
+      ELECTRUM_TLS_ENABLED: "false"
+      CORE_RPC_HOST: "bitcoind"
+      CORE_RPC_PORT: "8332"
+      CORE_RPC_USERNAME: "foo"
+      CORE_RPC_PASSWORD: "tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
+      DATABASE_ENABLED: "true"
+      DATABASE_HOST: "mariadb"
+      DATABASE_DATABASE: "mempool"
+      DATABASE_USERNAME: "mempool"
+      DATABASE_PASSWORD: "mempool"
+      STATISTICS_ENABLED: "true"
+    image: mempool/backend:latest
+    restart: on-failure
+    stop_grace_period: 25s
+    command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
+    expose:
+      - 8999
+    volumes:
+      - mempoolapi_data:/backend
+    depends_on:
+      - mariadb
+      - electrs
+    networks:
+      - docknode-btc
+
+  mariadb:
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: "mempool"
+      MYSQL_USER: "mempool"
+      MYSQL_PASSWORD: "mempool"
+      MYSQL_ROOT_PASSWORD: "admin"
+    image: mariadb:10.9.4
+    expose:
+      - 3306
+    volumes:
+      - mariadb_data:/var/lib/mysql
     networks:
       - docknode-btc
 
