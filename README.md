@@ -44,6 +44,6 @@ ufw enable
 4. Run
 ```bash
 docker compose up -d --pull always
-docker logs -f bitcoind --since 20m
+docker logs -f docknode-btc-bitcoind-1 --since 20m
 docker compose down
 ```
