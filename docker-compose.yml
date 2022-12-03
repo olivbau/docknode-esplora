@@ -8,10 +8,7 @@ volumes:
   bitcoind_data:
   caddy_data:
   caddy_config:
-  mempooldb_data:
-  mempoolapi_cache:
   electrs_data:
-  electrs_db:
 
 services:
   bitcoind:
@@ -25,6 +22,7 @@ services:
       - bitcoind_data:/data/.bitcoin
     command:
       - '-chain=main'
+      - '-server'
       - '-txindex'
       - '-disablewallet'
       - '-port=8333'
@@ -35,64 +33,22 @@ services:
     networks:
       - docknode-btc
 
-  mempoolapi:
-    user: root
-    environment:
-      MEMPOOL_BACKEND: "electrum"
-      ELECTRUM_HOST: "electrs"
-      ELECTRUM_PORT: "50001"
-      ELECTRUM_TLS_ENABLED: "false"
-      CORE_RPC_HOST: "bitcoind"
-      CORE_RPC_PORT: "8332"
-      CORE_RPC_USERNAME: "foo"
-      CORE_RPC_PASSWORD: "tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
-      DATABASE_ENABLED: "true"
-      DATABASE_HOST: "mempooldb"
-      DATABASE_DATABASE: "mempool"
-      DATABASE_USERNAME: "mempool"
-      DATABASE_PASSWORD: "mempool"
-      STATISTICS_ENABLED: "true"
-    image: mempool/backend:latest
-    restart: on-failure
-    stop_grace_period: 25s
-    command: "./wait-for-it.sh mempooldb:3306 --timeout=720 --strict -- ./start.sh"
-    expose:
-      - 8999
-    volumes:
-      - mempoolapi_cache:/backend/cache
-    depends_on:
-      - mempooldb
-      - electrs
-    networks:
-      - docknode-btc
-
-  mempooldb:
-    restart: on-failure
-    environment:
-      MYSQL_DATABASE: "mempool"
-      MYSQL_USER: "mempool"
-      MYSQL_PASSWORD: "mempool"
-      MYSQL_ROOT_PASSWORD: "admin"
-    image: mariadb:10.9.4
-    expose:
-      - 3306
-    volumes:
-      - mempooldb_data:/var/lib/mysql
-    networks:
-      - docknode-btc
-
   electrs:
-    user: root
     restart: on-failure
     image: getumbrel/electrs:v0.9.9
-    command: '--conf /electrs-config.toml'
     expose:
       - 50001
+    environment:
+      ELECTRS_AUTH: "foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
+      ELECTRS_LOG_FILTERS: "INFO"
+      ELECTRS_NETWORK: "bitcoin"
+      ELECTRS_DAEMON_DIR: "/bitcoin"
+      ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
+      ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
+      ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
     volumes:
-      - ./electrs/config.toml:/electrs-config.toml
       - bitcoind_data:/bitcoin
       - electrs_data:/data
-      - electrs_db:/db
     networks:
       - docknode-btc
 
@@ -115,15 +71,10 @@ services:
 
   caddy:
     image: caddy:2-alpine
-    depends_on:
-      - bitcoind
-      - mempoolapi
-      - nodeexporter
     ports:
       - "80:80"
       - "443:443"
       - "9100:9100"
-      - "9102:9102"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
