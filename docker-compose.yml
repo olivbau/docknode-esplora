@@ -10,7 +10,7 @@ volumes:
   caddy_config:
   mempooldb_data:
   mempoolapi_cache:
-  electrs_db:
+  electrs_data:
 
 services:
   bitcoind:
@@ -84,13 +84,13 @@ services:
     user: root
     restart: on-failure
     image: getumbrel/electrs:v0.9.9
-    command: '--conf /electrs/config.toml'
+    command: '--conf /electrs-config.toml'
     expose:
       - 50001
     volumes:
-      - ./electrs/config.toml:/electrs/config.toml
-      - electrs_db:/electrs/db
-      - bitcoind_data:/data/.bitcoin
+      - ./electrs/config.toml:/electrs-config.toml
+      - bitcoind_data:/bitcoin
+      - electrs_data:/data
     networks:
       - docknode-btc
 
