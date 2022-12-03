@@ -6,3 +6,4 @@ db_dir = "/electrs/db"
 network = "bitcoin"
 electrum_rpc_addr = "0.0.0.0:50001"
 log_filters = "INFO"
+sync_once = true
