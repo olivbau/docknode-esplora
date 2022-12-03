@@ -91,7 +91,7 @@ services:
     volumes:
       - ./electrs/config.toml:/electrs/config.toml
       - electrs_db:/electrs/db
-      - electrs_data:/data
+      - bitcoind_data:/data/.bitcoin
     networks:
       - docknode-btc
 
