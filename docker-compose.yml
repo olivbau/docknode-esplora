@@ -127,7 +127,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     environment:
-      - BASIC_AUTH_USERS=${BASIC_AUTH_USERS:?err}
+      - METRICS_USERS=${METRICS_USERS:?err}
+      - RPC_USERS=${RPC_USERS:?err}
       - HOST=${HOST:?err}
     networks:
       - docknode-btc

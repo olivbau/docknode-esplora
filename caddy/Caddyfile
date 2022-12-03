@@ -1,22 +1,22 @@
 {$HOST} {
         basicauth /* {
-                {$BASIC_AUTH_USERS}
+                {$RPC_USERS}
         }
         reverse_proxy bitcoind:8332 {
                 header_up Authorization "Basic Zm9vOnRkaGdHenZQNkJKd19waUZHSGg1SkxuUVd5V2Qyd2NFeEhDd0tUbmthWW89"
         }
 }
 
-{$HOST}:9100 {
-        basicauth /* {
-                {$BASIC_AUTH_USERS}
-        }
-        reverse_proxy nodeexporter:9100
-}
-
 {$HOST}:9102 {
         basicauth /* {
-                {$BASIC_AUTH_USERS}
+                {$RPC_USERS}
         }
         reverse_proxy mempoolapi:8999
+}
+
+{$HOST}:9100 {
+        basicauth /* {
+                {$METRICS_USERS}
+        }
+        reverse_proxy nodeexporter:9100
 }
