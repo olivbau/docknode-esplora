@@ -1,8 +1,0 @@
-auth="foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
-daemon_dir= "/bitcoin"
-db_dir = "/db/bitcoin"
-daemon_rpc_addr = "bitcoind:8332"
-daemon_p2p_addr = "bitcoind:8333"
-network = "bitcoin"
-electrum_rpc_addr = "0.0.0.0:50001"
-log_filters = "INFO"
