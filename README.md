@@ -2,9 +2,9 @@
 
 ## Metrics
 
-* Bitcoin RPC endpoint: `https://yourdomain.com`
-* Mempool API endpoint: `https://yourdomain.com:9102`
-* Nodeexporter endpoint: `https://yourdomain.com:9100/metrics`
+* Bitcoin RPC endpoint: `https://mydomain.com`
+* Mempool API endpoint: `https://mydomain.com:9102`
+* Nodeexporter endpoint: `https://mydomain.com:9100/metrics`
 
 ## Install 
 
