@@ -54,7 +54,7 @@ services:
       STATISTICS_ENABLED: "true"
     image: mempool/backend:latest
     restart: on-failure
-    stop_grace_period: 45s
+    stop_grace_period: 30s
     command: "./wait-for-it.sh mempooldb:3306 --timeout=720 --strict -- ./start.sh"
     expose:
       - 8999
@@ -74,7 +74,6 @@ services:
       MYSQL_PASSWORD: "mempool"
       MYSQL_ROOT_PASSWORD: "admin"
     image: mariadb:10.9.4
-    stop_grace_period: 1m
     expose:
       - 3306
     volumes:
@@ -86,7 +85,6 @@ services:
     user: root
     restart: on-failure
     image: getumbrel/electrs:v0.9.9
-    stop_grace_period: 1m
     command: '--conf /electrs/config.toml'
     expose:
       - 50001
