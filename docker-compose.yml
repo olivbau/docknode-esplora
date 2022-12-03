@@ -116,6 +116,8 @@ services:
     image: caddy:2-alpine
     depends_on:
       - bitcoind
+      - mempoolapi
+      - nodeexporter
     ports:
       - "80:80"
       - "443:443"
