@@ -53,7 +53,7 @@ services:
       STATISTICS_ENABLED: "true"
     image: mempool/backend:latest
     restart: on-failure
-    stop_grace_period: 30s
+    stop_grace_period: 25s
     command: "./wait-for-it.sh mempooldb:3306 --timeout=720 --strict -- ./start.sh"
     expose:
       - 8999
