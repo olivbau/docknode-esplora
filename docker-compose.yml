@@ -24,7 +24,6 @@ services:
       - bitcoind_data:/data/.bitcoin
     command:
       - '-chain=main'
-      - '-printtoconsole=0'
       - '-server'
       - '-txindex'
       - '-disablewallet'
