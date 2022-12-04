@@ -13,7 +13,7 @@
 apt update
 apt upgrade
 apt install git
-# install docker https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+# Install docker: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 ```
 
 1. Clone the repository and
