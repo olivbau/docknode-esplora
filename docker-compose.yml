@@ -15,7 +15,7 @@ volumes:
 services:
   bitcoind:
     image: "lncm/bitcoind:v24.0"
-    restart: on-failure
+    restart: unless-stopped
     ports:
       - "8333:8333/tcp"
     expose:
