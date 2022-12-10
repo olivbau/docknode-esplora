@@ -121,6 +121,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "9100:9100"
+      - "9102:9102"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
