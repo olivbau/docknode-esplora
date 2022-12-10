@@ -26,6 +26,7 @@ services:
       - '-chain=main'
       - '-server'
       - '-txindex'
+      - '-assumevalid=00000000000000000001a60aeb9c3badc31d1e7b0bbfac7244c5284fbe5dc3f8'
       - '-disablewallet'
       - '-port=8333'
       - '-rpcport=8332'
