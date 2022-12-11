@@ -68,7 +68,7 @@ services:
       STATISTICS_ENABLED: "true"
     image: mempool/backend:latest
     restart: on-failure
-    stop_grace_period: 15s
+    stop_grace_period: 20s
     command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
     expose:
       - 8999
