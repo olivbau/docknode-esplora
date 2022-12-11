@@ -26,6 +26,7 @@ services:
     command:
       - '-chain=main'
       - '-server'
+      - '-printtoconsole=0'
       - '-txindex'
       - '-assumevalid=00000000000000000001a60aeb9c3badc31d1e7b0bbfac7244c5284fbe5dc3f8'
       - '-disablewallet'
@@ -46,9 +47,9 @@ services:
     volumes:
       - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
       - fulcrum_data:/data
+    command: 'Fulcrum /etc/fulcrum.conf'
     networks:
       - docknode-btc
-    command: 'Fulcrum /etc/fulcrum.conf'
 
   mempoolapi:
     environment:
