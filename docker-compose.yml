@@ -43,6 +43,9 @@ services:
     restart: on-failure
     expose:
       - 50001
+      - 50009
+      - 8080
+      - 8000
     volumes:
       - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
       - fulcrum_data:/data
@@ -54,7 +57,7 @@ services:
     environment:
       MEMPOOL_BACKEND: "electrum"
       ELECTRUM_HOST: "fulcrum"
-      ELECTRUM_PORT: "50001"
+      ELECTRUM_PORT: "50009"
       ELECTRUM_TLS_ENABLED: "false"
       CORE_RPC_HOST: "bitcoind"
       CORE_RPC_PORT: "8332"
@@ -68,7 +71,7 @@ services:
       STATISTICS_ENABLED: "true"
     image: mempool/backend:latest
     restart: on-failure
-    stop_grace_period: 20s
+    stop_grace_period: 10s
     command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
     expose:
       - 8999
