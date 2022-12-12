@@ -26,6 +26,7 @@ services:
     command:
       - '-chain=main'
       - '-server'
+      - '-printtoconsole=0'
       - '-txindex'
       - '-assumevalid=00000000000000000001a60aeb9c3badc31d1e7b0bbfac7244c5284fbe5dc3f8'
       - '-disablewallet'
@@ -40,7 +41,7 @@ services:
 
   fulcrum:
     image: cculianu/fulcrum:latest
-    restart: on-failure
+    restart: unless-stopped
     expose:
       - 50001
       - 50009
@@ -70,7 +71,7 @@ services:
       DATABASE_PASSWORD: "mempool"
       STATISTICS_ENABLED: "true"
     image: mempool/backend:latest
-    restart: on-failure
+    restart: unless-stopped
     stop_grace_period: 10s
     command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
     expose:
@@ -84,7 +85,7 @@ services:
       - docknode-btc
 
   mariadb:
-    restart: on-failure
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: "mempool"
       MYSQL_USER: "mempool"
