@@ -14,7 +14,7 @@ volumes:
 
 services:
   bitcoind:
-    image: "lncm/bitcoind:v24.0"
+    image: "lncm/bitcoind:v24.0.1"
     restart: unless-stopped
     ports:
       - "8333:8333/tcp"
@@ -28,7 +28,7 @@ services:
       - '-server'
       - '-printtoconsole=0'
       - '-txindex'
-      - '-assumevalid=00000000000000000001a60aeb9c3badc31d1e7b0bbfac7244c5284fbe5dc3f8'
+      - '-assumevalid=00000000000000000003c0ed2ccf36c321231ca5ed0df6ba4e2cf0242db44257'
       - '-disablewallet'
       - '-zmqpubhashblock=tcp://0.0.0.0:8433'
       - '-port=8333'
