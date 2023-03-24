@@ -40,20 +40,20 @@ services:
     networks:
       - docknode-btc
 
-  fulcrum:
-    image: cculianu/fulcrum:latest
-    restart: unless-stopped
-    expose:
-      - 50001
-      - 50009
-      - 8080
-      - 8000
-    volumes:
-      - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
-      - fulcrum_data:/data
-    command: 'Fulcrum /etc/fulcrum.conf'
-    networks:
-      - docknode-btc
+  # fulcrum:
+  #   image: cculianu/fulcrum:latest
+  #   restart: unless-stopped
+  #   expose:
+  #     - 50001
+  #     - 50009
+  #     - 8080
+  #     - 8000
+  #   volumes:
+  #     - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
+  #     - fulcrum_data:/data
+  #   command: 'Fulcrum /etc/fulcrum.conf'
+  #   networks:
+  #     - docknode-btc
 
   electrs:
     image: getumbrel/electrs:v0.9.10
