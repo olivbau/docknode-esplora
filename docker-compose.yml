@@ -94,7 +94,6 @@ services:
       - mempoolapi_data:/backend
     depends_on:
       - mariadb
-      - electrs
     networks:
       - docknode-btc
 
