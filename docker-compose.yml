@@ -9,6 +9,7 @@ volumes:
   caddy_data:
   caddy_config:
   fulcrum_data:
+  electrs_data:
   mariadb_data:
   mempoolapi_data:
 
@@ -54,11 +55,24 @@ services:
     networks:
       - docknode-btc
 
+  electrs:
+    image: getumbrel/electrs:v0.9.10
+    restart: unless-stopped
+    expose:
+      - 50005
+    volumes:
+      - ./electrs/electrs.toml:/etc/electrs/electrs.toml
+      - electrs_data:/data
+    command:
+      - '--conf=/etc/electrs/electrs.toml'
+    networks:
+      - docknode-btc
+
   mempoolapi:
     environment:
       MEMPOOL_BACKEND: "electrum"
-      ELECTRUM_HOST: "fulcrum"
-      ELECTRUM_PORT: "50009"
+      ELECTRUM_HOST: "electrs"
+      ELECTRUM_PORT: "50005"
       ELECTRUM_TLS_ENABLED: "false"
       CORE_RPC_HOST: "bitcoind"
       CORE_RPC_PORT: "8332"
