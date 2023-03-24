@@ -94,7 +94,7 @@ services:
       - mempoolapi_data:/backend
     depends_on:
       - mariadb
-      - fulcrum
+      - electrs
     networks:
       - docknode-btc
 
