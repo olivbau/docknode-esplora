@@ -39,6 +39,7 @@ nano .env
 ufw allow ssh
 ufw deny 8332 && ufw deny 8999 && ufw deny 3306 && ufw deny 50001 && ufw deny 50005 && ufw deny 50009 && ufw deny 8080 && ufw deny 8000
 ufw enable
+ufw status
 ```
 
 4. Run
