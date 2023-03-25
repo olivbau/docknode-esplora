@@ -75,8 +75,6 @@ services:
       - 3002
     volumes:
       - ./btc-rpc-explorer/btc-rpc-explorer.env:/.env
-    command:
-      - '--conf=/etc/electrs/electrs.toml'
     networks:
       - docknode-btc
 
