@@ -26,11 +26,12 @@ services:
       - bitcoind_data:/data/.bitcoin
     command:
       - '-chain=main'
-      - '-server'
+      - '-server=1'
       - '-printtoconsole=1'
-      - '-txindex'
+      - '-prune=0'
+      - '-txindex=1'
       - '-assumevalid=00000000000000000003c0ed2ccf36c321231ca5ed0df6ba4e2cf0242db44257'
-      - '-disablewallet'
+      - '-disablewallet=1'
       - '-zmqpubhashblock=tcp://0.0.0.0:8433'
       - '-port=8333'
       - '-rpcport=8332'
