@@ -5,7 +5,7 @@
         reverse_proxy btcrpcexplorer:3002
 }
 
-{$HOST}:9102 {
+{$HOST}:9103 {
         basicauth /* {
                 {$RPC_USERS}
         }
