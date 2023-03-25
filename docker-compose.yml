@@ -74,7 +74,7 @@ services:
     expose:
       - 3002
     volumes:
-      - ./btc-rpc-explorer/btc-rpc-explorer.env:/.env
+      - ./btc-rpc-explorer/btc-rpc-explorer.env:/etc/btc-rpc-explorer/.env
     networks:
       - docknode-btc
 
