@@ -37,7 +37,7 @@ nano .env
 3. Setup UFW
 ```bash
 ufw allow ssh
-ufw deny 8332 && ufw deny 8999 && ufw deny 3306 && ufw deny 50001 && ufw deny 50005 && ufw deny 50009 && ufw deny 8080 && ufw deny 8000
+ufw deny 8332 && ufw deny 8999 && ufw deny 3306 && ufw deny 3002 && ufw deny 50001 && ufw deny 50005 && ufw deny 50009 && ufw deny 8080 && ufw deny 8000
 ufw enable
 ufw status
 ```
@@ -50,5 +50,6 @@ docker logs -f docknode-btc-bitcoind-1 --since 20m
 docker logs -f docknode-btc-electrs-1 --since 20m
 docker logs -f docknode-btc-fulcrum-1 --since 20m
 docker logs -f docknode-btc-mempoolapi-1 --since 20m
+docker logs -f docknode-btc-btcrpcexplorer-1 --since 20m
 docker compose down
 ```

@@ -68,6 +68,18 @@ services:
     networks:
       - docknode-btc
 
+  btcrpcexplorer:
+    image: getumbrel/btc-rpc-explorer:v3.3.0
+    restart: unless-stopped
+    expose:
+      - 3002
+    volumes:
+      - ./btc-rpc-explorer/btc-rpc-explorer.env:./.env
+    command:
+      - '--conf=/etc/electrs/electrs.toml'
+    networks:
+      - docknode-btc
+
   mempoolapi:
     environment:
       MEMPOOL_BACKEND: "electrum"
