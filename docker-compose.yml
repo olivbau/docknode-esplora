@@ -8,9 +8,7 @@ volumes:
   bitcoind_data:
   caddy_data:
   caddy_config:
-  fulcrum_data:
   electrs_data:
-  belectrs_data:
   mariadb_data:
   mempoolapi_data:
 
@@ -42,67 +40,33 @@ services:
     networks:
       - docknode-btc
 
-  fulcrum:
-    image: cculianu/fulcrum:latest
-    restart: unless-stopped
-    expose:
-      - 50001
-      - 50009
-      - 8080
-      - 8000
-    volumes:
-      - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
-      - fulcrum_data:/data
-    command: 'Fulcrum /etc/fulcrum.conf'
-    networks:
-      - docknode-btc
-
-  belectrs:
+  electrs:
     image: olivbau/blockstream-electrs:latest
     restart: unless-stopped
     expose:
-      - 50006
+      - 50010
+      - 3000
     volumes:
       - bitcoind_data:/bitcoind-data/.bitcoin
-      - belectrs_data:/data
+      - electrs_data:/data
     command:
       - '-vvv'
       - '--db-dir=/data'
       - '--daemon-dir=/bitcoind-data/.bitcoin'
       - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
-      - '--electrum-rpc-addr=0.0.0.0:50006'
+      - '--electrum-rpc-addr=0.0.0.0:50010'
+      - '--http-addr=0.0.0.0:3000'
       - '--daemon-rpc-addr=bitcoind:8332'
-    networks:
-      - docknode-btc
-
-  electrs:
-    image: getumbrel/electrs:v0.9.10
-    restart: unless-stopped
-    expose:
-      - 50005
-    volumes:
-      - ./electrs/electrs.toml:/etc/electrs/electrs.toml
-      - electrs_data:/data
-    command:
-      - '--conf=/etc/electrs/electrs.toml'
-    networks:
-      - docknode-btc
-
-  btcrpcexplorer:
-    image: getumbrel/btc-rpc-explorer:v3.3.0
-    restart: unless-stopped
-    expose:
-      - 3002
-    volumes:
-      - ./btc-rpc-explorer/btc-rpc-explorer.env:/etc/btc-rpc-explorer/.env
     networks:
       - docknode-btc
 
   mempoolapi:
     environment:
       MEMPOOL_BACKEND: "electrum"
-      ELECTRUM_HOST: "fulcrum"
-      ELECTRUM_PORT: "50009"
+      ELECTRUM_HOST: "esplora"
+      ELECTRUM_PORT: "50010"
+      # ELECTRUM_HOST: "fulcrum"
+      # ELECTRUM_PORT: "50009"
       # ELECTRUM_HOST: "electrs"
       # ELECTRUM_PORT: "50005"
       ELECTRUM_TLS_ENABLED: "false"
@@ -168,7 +132,6 @@ services:
       - "443:443"
       - "9100:9100"
       - "9102:9102"
-      - "9103:9103"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
