@@ -10,6 +10,7 @@ volumes:
   caddy_config:
   fulcrum_data:
   electrs_data:
+  belectrs_data:
   mariadb_data:
   mempoolapi_data:
 
@@ -53,6 +54,24 @@ services:
       - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
       - fulcrum_data:/data
     command: 'Fulcrum /etc/fulcrum.conf'
+    networks:
+      - docknode-btc
+
+  belectrs:
+    image: olivbau/blockstream-electrs:latest
+    restart: unless-stopped
+    expose:
+      - 50006
+    volumes:
+      - bitcoind_data:/bitcoind-data/.bitcoin
+      - belectrs_data:/data
+    command:
+      - '-vvv'
+      - '--db-dir=/data'
+      - '--daemon-dir=/bitcoind-data/.bitcoin'
+      - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
+      - '--electrum-rpc-addr=0.0.0.0:50006'
+      - '--daemon-rpc-addr=bitcoind:8332'
     networks:
       - docknode-btc
 
