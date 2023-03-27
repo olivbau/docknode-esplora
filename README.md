@@ -45,9 +45,9 @@ ufw status
 ```bash
 docker compose pull
 docker compose up -d
-docker logs -f docknode-btc-caddy-1 --since 20m
-docker logs -f docknode-btc-bitcoind-1 --since 20m
-docker logs -f docknode-btc-electrs-1 --since 20m
-docker logs -f docknode-btc-mempoolapi-1 --since 20m
+docker logs -f docknode-btc-caddy-1 --since 5m
+docker logs -f docknode-btc-bitcoind-1 --since 5m
+docker logs -f docknode-btc-electrs-1 --since 5m
+docker logs -f docknode-btc-mempoolapi-1 --since 5m
 docker compose down
 ```
