@@ -5,16 +5,16 @@
         reverse_proxy mempoolapi:8999
 }
 
+{$HOST}:9102 {
+        basicauth /* {
+                {$RPC_USERS}
+        }
+        reverse_proxy electrs:3000
+}
+
 {$HOST}:9100 {
         basicauth /* {
                 {$METRICS_USERS}
         }
         reverse_proxy nodeexporter:9100
-}
-
-{$HOST}:9102 {
-        basicauth /* {
-                {$METRICS_USERS}
-        }
-        reverse_proxy electrs:3000
 }
