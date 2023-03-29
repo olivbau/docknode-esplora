@@ -64,7 +64,7 @@ services:
       ELECTRUM_HOST: "electrs"
       ELECTRUM_PORT: "50010"
       ELECTRUM_TLS_ENABLED: "false"
-      ESPLORA_REST_API_URL: "electrs:3000"
+      ESPLORA_REST_API_URL: "http://electrs:3000"
       CORE_RPC_HOST: "bitcoind"
       CORE_RPC_PORT: "8332"
       CORE_RPC_USERNAME: "foo"
