@@ -19,6 +19,6 @@
         reverse_proxy nodeexporter:9100
 }
 
-:3000 {
+:3001 {
         reverse_proxy electrs:3000
 }
