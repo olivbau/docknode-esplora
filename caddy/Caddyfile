@@ -19,6 +19,13 @@
         reverse_proxy nodeexporter:9100
 }
 
+{$HOST}:9103 {
+        basicauth /* {
+                {$RPC_USERS}
+        }
+        reverse_proxy esplora:8080
+}
+
 :3001 {
         reverse_proxy electrs:3000
 }

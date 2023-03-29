@@ -9,6 +9,7 @@ volumes:
   caddy_data:
   caddy_config:
   electrs_data:
+  esplora_data:
   mariadb_data:
   mempoolapi_data:
 
@@ -57,6 +58,18 @@ services:
       - '--electrum-rpc-addr=0.0.0.0:50001'
       - '--http-addr=0.0.0.0:3000'
       - '--daemon-rpc-addr=bitcoind:8332'
+    networks:
+      - docknode-btc
+
+
+  esplora:
+    image: blockstream/esplora:latest
+    restart: unless-stopped
+    expose:
+      - 8080
+    volumes:
+      - esplora_data:/data
+    command: /srv/explorer/run.sh bitcoin-mainnet explorer
     networks:
       - docknode-btc
 
@@ -130,6 +143,7 @@ services:
       - "3001:3001"
       - "9100:9100"
       - "9102:9102"
+      - "9103:9103"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
