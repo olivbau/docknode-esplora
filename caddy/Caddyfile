@@ -9,7 +9,7 @@
         basicauth /* {
                 {$RPC_USERS}
         }
-        reverse_proxy electrs:3000
+        reverse_proxy electrs:8080
 }
 
 {$HOST}:9100 {

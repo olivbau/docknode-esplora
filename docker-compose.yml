@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
     expose:
       - 50010
-      - 3000
+      - 8080
     volumes:
       - bitcoind_data:/bitcoind-data/.bitcoin
       - electrs_data:/data
@@ -53,7 +53,7 @@ services:
       - '--daemon-dir=/bitcoind-data/.bitcoin'
       - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
       - '--electrum-rpc-addr=0.0.0.0:50010'
-      - '--http-addr=0.0.0.0:3000'
+      - '--http-addr=127.0.0.1:8080'
       - '--daemon-rpc-addr=bitcoind:8332'
     networks:
       - docknode-btc
@@ -64,7 +64,7 @@ services:
       ELECTRUM_HOST: "electrs"
       ELECTRUM_PORT: "50010"
       ELECTRUM_TLS_ENABLED: "false"
-      ESPLORA_REST_API_URL: "http://electrs:3000"
+      ESPLORA_REST_API_URL: "http://electrs:8080"
       CORE_RPC_HOST: "bitcoind"
       CORE_RPC_PORT: "8332"
       CORE_RPC_USERNAME: "foo"
