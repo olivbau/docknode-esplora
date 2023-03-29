@@ -18,3 +18,7 @@
         }
         reverse_proxy nodeexporter:9100
 }
+
+:3000 {
+        reverse_proxy electrs:3000
+}
