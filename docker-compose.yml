@@ -5,116 +5,21 @@ networks:
     driver: bridge
 
 volumes:
-  bitcoind_data:
   caddy_data:
   caddy_config:
-  electrs_data:
   esplora_data:
-  mariadb_data:
-  mempoolapi_data:
 
 services:
-  bitcoind:
-    image: "lncm/bitcoind:v24.0.1"
-    restart: unless-stopped
-    ports:
-      - "8333:8333/tcp"
-      - "127.0.0.1:8433:8433/tcp"
-    expose:
-      - 8332
-    volumes:
-      - bitcoind_data:/data/.bitcoin
-    command:
-      - '-chain=main'
-      - '-server=1'
-      - '-printtoconsole=1'
-      - '-prune=0'
-      - '-txindex=1'
-      - '-disablewallet=1'
-      - '-port=8333'
-      - '-rpcport=8332'
-      - '-rpcallowip=0.0.0.0/0'
-      - '-rpcbind=0.0.0.0'
-      - '-rpcauth=foo:d5268f9f980d9cc37c47bb2e64bdc4c4$$2f919b85988524201e472d2421530757ed140a32cc483d04ad00f1a1da2ded85'
-    networks:
-      - docknode-btc
-
-  electrs:
-    image: olivbau/blockstream-electrs:latest
-    restart: unless-stopped
-    expose:
-      - 50001
-      - 3000
-    volumes:
-      - bitcoind_data:/bitcoind-data/.bitcoin
-      - electrs_data:/data
-    command:
-      - '-vvv'
-      - '--timestamp'
-      - '--cors=*'
-      - '--db-dir=/data'
-      - '--daemon-dir=/bitcoind-data/.bitcoin'
-      - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
-      - '--electrum-rpc-addr=0.0.0.0:50001'
-      - '--http-addr=0.0.0.0:3000'
-      - '--daemon-rpc-addr=bitcoind:8332'
-    networks:
-      - docknode-btc
-
-
   esplora:
     image: blockstream/esplora:latest
     restart: unless-stopped
     expose:
       - 8080
+    ports:
+      - "50001:50001"
     volumes:
       - esplora_data:/data
     command: /srv/explorer/run.sh bitcoin-mainnet explorer
-    networks:
-      - docknode-btc
-
-  mempoolapi:
-    environment:
-      MEMPOOL_BACKEND: "esplora"
-      ELECTRUM_HOST: "electrs"
-      ELECTRUM_PORT: "50001"
-      ELECTRUM_TLS_ENABLED: "false"
-      ESPLORA_REST_API_URL: "electrs:3000"
-      CORE_RPC_HOST: "bitcoind"
-      CORE_RPC_PORT: "8332"
-      CORE_RPC_USERNAME: "foo"
-      CORE_RPC_PASSWORD: "tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
-      DATABASE_ENABLED: "true"
-      DATABASE_HOST: "mariadb"
-      DATABASE_DATABASE: "mempool"
-      DATABASE_USERNAME: "mempool"
-      DATABASE_PASSWORD: "mempool"
-      STATISTICS_ENABLED: "true"
-    image: mempool/backend:latest
-    restart: unless-stopped
-    stop_grace_period: 10s
-    command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
-    expose:
-      - 8999
-    volumes:
-      - mempoolapi_data:/backend
-    depends_on:
-      - mariadb
-    networks:
-      - docknode-btc
-
-  mariadb:
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: "mempool"
-      MYSQL_USER: "mempool"
-      MYSQL_PASSWORD: "mempool"
-      MYSQL_ROOT_PASSWORD: "admin"
-    image: mariadb:10.9.4
-    expose:
-      - 3306
-    volumes:
-      - mariadb_data:/var/lib/mysql
     networks:
       - docknode-btc
 
@@ -140,10 +45,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "3001:3001"
       - "9100:9100"
-      - "9102:9102"
-      - "9103:9103"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data

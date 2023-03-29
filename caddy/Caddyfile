@@ -1,15 +1,5 @@
 {$HOST} {
-        basicauth /* {
-                {$RPC_USERS}
-        }
-        reverse_proxy mempoolapi:8999
-}
-
-{$HOST}:9102 {
-        basicauth /* {
-                {$RPC_USERS}
-        }
-        reverse_proxy electrs:3000
+        reverse_proxy esplora:8080
 }
 
 {$HOST}:9100 {
@@ -17,15 +7,4 @@
                 {$METRICS_USERS}
         }
         reverse_proxy nodeexporter:9100
-}
-
-{$HOST}:9103 {
-        basicauth /* {
-                {$RPC_USERS}
-        }
-        reverse_proxy esplora:8080
-}
-
-:3001 {
-        reverse_proxy electrs:3000
 }
