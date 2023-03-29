@@ -44,6 +44,8 @@ services:
     expose:
       - 50010
       - 3000
+    ports:
+      - "3000:3000"
     volumes:
       - bitcoind_data:/bitcoind-data/.bitcoin
       - electrs_data:/data
