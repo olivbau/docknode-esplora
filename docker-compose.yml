@@ -42,7 +42,7 @@ services:
     image: olivbau/blockstream-electrs:latest
     restart: unless-stopped
     expose:
-      - 50010
+      - 50001
       - 3000
     volumes:
       - bitcoind_data:/bitcoind-data/.bitcoin
@@ -54,7 +54,7 @@ services:
       - '--db-dir=/data'
       - '--daemon-dir=/bitcoind-data/.bitcoin'
       - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
-      - '--electrum-rpc-addr=0.0.0.0:50010'
+      - '--electrum-rpc-addr=0.0.0.0:50001'
       - '--http-addr=127.0.0.1:3000'
       - '--daemon-rpc-addr=bitcoind:8332'
     networks:
@@ -64,7 +64,7 @@ services:
     environment:
       MEMPOOL_BACKEND: "esplora"
       ELECTRUM_HOST: "electrs"
-      ELECTRUM_PORT: "50010"
+      ELECTRUM_PORT: "50001"
       ELECTRUM_TLS_ENABLED: "false"
       ESPLORA_REST_API_URL: "http://electrs:3000"
       CORE_RPC_HOST: "bitcoind"
