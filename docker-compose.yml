@@ -49,6 +49,8 @@ services:
       - electrs_data:/data
     command:
       - '-vvv'
+      - '--timestamp'
+      - '--cors=*'
       - '--db-dir=/data'
       - '--daemon-dir=/bitcoind-data/.bitcoin'
       - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
