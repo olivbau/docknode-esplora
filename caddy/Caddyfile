@@ -1,5 +1,6 @@
 {$HOST} {
         reverse_proxy esplora:80
+        reverse_proxy /api/* esplora:80/api
 }
 
 {$HOST}:9100 {
