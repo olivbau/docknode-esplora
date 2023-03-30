@@ -13,9 +13,10 @@ services:
   esplora:
     image: blockstream/esplora:latest
     restart: unless-stopped
+    expose:
+      - 80
     ports:
       - "50001:50001"
-      - "8080:80"
     environment:
         DEBUG: verbose
         NO_PRECACHE: 1
