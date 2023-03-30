@@ -2,7 +2,7 @@
         reverse_proxy esplora:80
 
         handle /api/* {
-		reverse_proxy esplora:80
+		reverse_proxy esplora:80/api
 	}
 }
 
