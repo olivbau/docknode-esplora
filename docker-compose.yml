@@ -16,6 +16,8 @@ services:
     ports:
       - "50001:50001"
       - "8080:80"
+    environment:
+        DEBUG: verbose
     volumes:
       - esplora_data:/data
     command: /srv/explorer/run.sh bitcoin-mainnet explorer
