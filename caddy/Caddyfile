@@ -1,5 +1,5 @@
 {$HOST} {
-        reverse_proxy http://esplora:80
+        reverse_proxy http://esplora:8080
 }
 
 {$HOST}:9100 {
