@@ -1,6 +1,6 @@
-{$HOST} {
-        reverse_proxy esplora:8080
-}
+# {$HOST} {
+#         reverse_proxy esplora:8080
+# }
 
 {$HOST}:9100 {
         basicauth /* {

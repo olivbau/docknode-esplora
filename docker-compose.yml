@@ -13,10 +13,9 @@ services:
   esplora:
     image: blockstream/esplora:latest
     restart: unless-stopped
-    expose:
-      - 8080
     ports:
       - "50001:50001"
+      - "8080:80"
     volumes:
       - esplora_data:/data
     command: /srv/explorer/run.sh bitcoin-mainnet explorer
@@ -43,8 +42,6 @@ services:
   caddy:
     image: caddy:2-alpine
     ports:
-      - "80:80"
-      - "443:443"
       - "9100:9100"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
