@@ -1,4 +1,7 @@
 {$HOST} {
+        basicauth /* {
+                {$RPC_USERS}
+        }
         reverse_proxy esplora:80
 }
 

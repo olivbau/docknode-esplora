@@ -10,8 +10,9 @@
 0. VPS config (optional)
 ```bash
 apt update
-apt upgrade
-apt install git
+apt upgrade -y
+apt install -y git
+# apt update && apt upgrade -y && apt install -y git
 # Install docker: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 ```
 
