@@ -1,8 +1,8 @@
-# Docknode BTC
+# Docknode Esplora
 
 ## Metrics
 
-* Bitcoin RPC endpoint: `https://mydomain.com`
+* Esplora: `https://mydomain.com`
 * Nodeexporter endpoint: `https://mydomain.com:9100/metrics`
 
 ## Install 
@@ -18,8 +18,8 @@ apt install -y git
 
 1. Clone the repository and
 ```bash
-git clone https://github.com/olivbau/docknode-btc.git
-cd docknode-btc
+git clone https://github.com/olivbau/docknode-esplora.git
+cd docknode-esplora
 ```
 
 2. Configure environement variables
@@ -45,7 +45,7 @@ ufw status
 ```bash
 docker compose pull
 docker compose up -d
-docker logs -f docknode-btc-caddy-1 --since 5m
-docker logs -f docknode-btc-esplora-1 --since 5m
+docker logs -f docknode-esplora-caddy-1 --since 5m
+docker logs -f docknode-esplora-esplora-1 --since 5m
 docker compose down
 ```

@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  docknode-btc:
+  docknode-esplora:
     driver: bridge
 
 volumes:
@@ -21,7 +21,7 @@ services:
       - esplora_data:/data
     command: /srv/explorer/run.sh bitcoin-mainnet explorer
     networks:
-      - docknode-btc
+      - docknode-esplora
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
@@ -38,7 +38,7 @@ services:
     expose:
       - 9100
     networks:
-      - docknode-btc
+      - docknode-esplora
 
   caddy:
     image: caddy:2-alpine
@@ -55,4 +55,4 @@ services:
       - RPC_USERS=${RPC_USERS:?err}
       - HOST=${HOST:?err}
     networks:
-      - docknode-btc
+      - docknode-esplora
