@@ -1,148 +1,27 @@
 version: "3.8"
 
 networks:
-  docknode-btc:
+  docknode-esplora:
     driver: bridge
 
 volumes:
-  bitcoind_data:
   caddy_data:
   caddy_config:
-  fulcrum_data:
-  electrs_data:
-  belectrs_data:
-  mariadb_data:
-  mempoolapi_data:
+  esplora_data:
 
 services:
-  bitcoind:
-    image: "lncm/bitcoind:v24.0.1"
+  esplora:
+    image: blockstream/esplora:latest
     restart: unless-stopped
+    expose:
+      - 80
     ports:
-      - "8333:8333/tcp"
-      - "127.0.0.1:8433:8433/tcp"
-    expose:
-      - 8332
+      - "50001:50001"
     volumes:
-      - bitcoind_data:/data/.bitcoin
-    command:
-      - '-chain=main'
-      - '-server=1'
-      - '-printtoconsole=1'
-      - '-prune=0'
-      - '-txindex=1'
-      - '-assumevalid=00000000000000000003c0ed2ccf36c321231ca5ed0df6ba4e2cf0242db44257'
-      - '-disablewallet=1'
-      - '-zmqpubhashblock=tcp://0.0.0.0:8433'
-      - '-port=8333'
-      - '-rpcport=8332'
-      - '-rpcallowip=0.0.0.0/0'
-      - '-rpcbind=0.0.0.0'
-      - '-rpcauth=foo:d5268f9f980d9cc37c47bb2e64bdc4c4$$2f919b85988524201e472d2421530757ed140a32cc483d04ad00f1a1da2ded85'
+      - esplora_data:/data
+    command: /srv/explorer/run.sh bitcoin-mainnet explorer
     networks:
-      - docknode-btc
-
-  fulcrum:
-    image: cculianu/fulcrum:latest
-    restart: unless-stopped
-    expose:
-      - 50001
-      - 50009
-      - 8080
-      - 8000
-    volumes:
-      - ./fulcrum/fulcrum.conf:/etc/fulcrum.conf
-      - fulcrum_data:/data
-    command: 'Fulcrum /etc/fulcrum.conf'
-    networks:
-      - docknode-btc
-
-  belectrs:
-    image: olivbau/blockstream-electrs:latest
-    restart: unless-stopped
-    expose:
-      - 50006
-    volumes:
-      - bitcoind_data:/bitcoind-data/.bitcoin
-      - belectrs_data:/data
-    command:
-      - '-vvv'
-      - '--db-dir=/data'
-      - '--daemon-dir=/bitcoind-data/.bitcoin'
-      - '--cookie=foo:tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo='
-      - '--electrum-rpc-addr=0.0.0.0:50006'
-      - '--daemon-rpc-addr=bitcoind:8332'
-    networks:
-      - docknode-btc
-
-  electrs:
-    image: getumbrel/electrs:v0.9.10
-    restart: unless-stopped
-    expose:
-      - 50005
-    volumes:
-      - ./electrs/electrs.toml:/etc/electrs/electrs.toml
-      - electrs_data:/data
-    command:
-      - '--conf=/etc/electrs/electrs.toml'
-    networks:
-      - docknode-btc
-
-  btcrpcexplorer:
-    image: getumbrel/btc-rpc-explorer:v3.3.0
-    restart: unless-stopped
-    expose:
-      - 3002
-    volumes:
-      - ./btc-rpc-explorer/btc-rpc-explorer.env:/etc/btc-rpc-explorer/.env
-    networks:
-      - docknode-btc
-
-  mempoolapi:
-    environment:
-      MEMPOOL_BACKEND: "electrum"
-      ELECTRUM_HOST: "fulcrum"
-      ELECTRUM_PORT: "50009"
-      # ELECTRUM_HOST: "electrs"
-      # ELECTRUM_PORT: "50005"
-      ELECTRUM_TLS_ENABLED: "false"
-      CORE_RPC_HOST: "bitcoind"
-      CORE_RPC_PORT: "8332"
-      CORE_RPC_USERNAME: "foo"
-      CORE_RPC_PASSWORD: "tdhgGzvP6BJw_piFGHh5JLnQWyWd2wcExHCwKTnkaYo="
-      DATABASE_ENABLED: "true"
-      DATABASE_HOST: "mariadb"
-      DATABASE_DATABASE: "mempool"
-      DATABASE_USERNAME: "mempool"
-      DATABASE_PASSWORD: "mempool"
-      STATISTICS_ENABLED: "true"
-    image: mempool/backend:latest
-    restart: unless-stopped
-    stop_grace_period: 10s
-    command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
-    expose:
-      - 8999
-    volumes:
-      - mempoolapi_data:/backend
-    depends_on:
-      - mariadb
-    networks:
-      - docknode-btc
-
-  mariadb:
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: "mempool"
-      MYSQL_USER: "mempool"
-      MYSQL_PASSWORD: "mempool"
-      MYSQL_ROOT_PASSWORD: "admin"
-    image: mariadb:10.9.4
-    expose:
-      - 3306
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - docknode-btc
+      - docknode-esplora
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
@@ -159,7 +38,7 @@ services:
     expose:
       - 9100
     networks:
-      - docknode-btc
+      - docknode-esplora
 
   caddy:
     image: caddy:2-alpine
@@ -167,8 +46,6 @@ services:
       - "80:80"
       - "443:443"
       - "9100:9100"
-      - "9102:9102"
-      - "9103:9103"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
@@ -178,4 +55,4 @@ services:
       - RPC_USERS=${RPC_USERS:?err}
       - HOST=${HOST:?err}
     networks:
-      - docknode-btc
+      - docknode-esplora
