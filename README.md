@@ -16,7 +16,7 @@ apt install -y git
 # Install docker: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 ```
 
-1. Clone the repository and
+1. Clone the repository
 ```bash
 git clone https://github.com/olivbau/docknode-esplora.git
 cd docknode-esplora
