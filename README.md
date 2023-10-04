@@ -50,7 +50,7 @@ ufw status
 ```bash
 docker compose pull
 docker compose up -d
-docker logs -f docknode-esplora-caddy-1 --since 5m
-docker logs -f docknode-esplora-esplora-1 --since 5m
+docker logs -f docknode-btc-caddy-1 --since 5m
+docker logs -f docknode-btc-esplora-1 --since 5m
 docker compose down
 ```
