@@ -2,12 +2,13 @@
 
 ## Metrics
 
-* Esplora: `https://mydomain.com`
-* Nodeexporter endpoint: `https://mydomain.com:9100/metrics`
+- Esplora: `https://mydomain.com`
+- Nodeexporter endpoint: `https://mydomain.com:9100/metrics`
 
-## Install 
+## Install
 
 0. VPS config (optional)
+
 ```bash
 apt update
 apt upgrade -y
@@ -17,12 +18,14 @@ apt install -y git
 ```
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/olivbau/docknode-esplora.git
 cd docknode-esplora
 ```
 
 2. Configure environement variables
+
 ```bash
 cp .env.example .env
 
@@ -35,6 +38,7 @@ nano .env
 ```
 
 3. Setup UFW
+
 ```bash
 ufw allow ssh
 ufw enable
@@ -42,6 +46,7 @@ ufw status
 ```
 
 4. Run
+
 ```bash
 docker compose pull
 docker compose up -d
