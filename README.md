@@ -12,7 +12,7 @@
 ```bash
 apt update
 apt upgrade -y
-apt install -y git
+apt install -y git ufw
 # apt update && apt upgrade -y && apt install -y git
 # Install docker: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 ```
@@ -40,9 +40,9 @@ nano .env
 3. Setup UFW
 
 ```bash
-ufw allow ssh
-ufw enable
-ufw status
+sudo ufw allow ssh
+sudo systemctl enable --now ufw
+sudo systemctl status ufw
 ```
 
 4. Run
