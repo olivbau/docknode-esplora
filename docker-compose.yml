@@ -33,6 +33,7 @@ services:
       - 50001
     volumes:
       - "bitcoind_data:/data/.bitcoin:ro"
+      - "electrs_data:/data/db"
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "bitcoin"
@@ -40,6 +41,7 @@ services:
       ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
       ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookie"
+      ELECTRS_DB_DIR: "/data/db"
     networks:
       - docknode-esplora
     depends_on:
