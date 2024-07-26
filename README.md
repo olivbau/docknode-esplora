@@ -40,7 +40,7 @@ nano .env
 3. Setup UFW
 
 ```bash
-sudo ufw allow ssh
+sudo ufw allow ssh && sudo ufw allow 8333 && sudo ufw allow https
 sudo systemctl enable --now ufw
 sudo systemctl status ufw
 ```
