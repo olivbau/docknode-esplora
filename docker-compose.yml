@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     expose:
       - 8332
+      - 8333
     ports:
       - "8333:8333"
     volumes:
