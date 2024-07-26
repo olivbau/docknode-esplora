@@ -83,6 +83,7 @@ services:
     depends_on:
       - mariadb
       - electrs
+      - bitcoind
 
   mariadb:
     image: mariadb:10.5.21
