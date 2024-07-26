@@ -30,7 +30,7 @@ services:
     expose:
       - 50001
     volumes:
-      - "bitcoind_data:/home/user/.bitcoin:ro"
+      - "bitcoind_data:/root/.bitcoin:ro"
       - "electrs_data:/home/user/db"
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
