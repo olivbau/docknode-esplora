@@ -97,6 +97,8 @@ services:
       - "mariadb_data:/var/lib/mysql"
     expose:
       - 3306
+    networks:
+      - docknode-esplora
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
