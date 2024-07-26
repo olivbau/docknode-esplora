@@ -11,7 +11,7 @@ volumes:
 
 services:
   esplora:
-    image: blockstream/esplora:latest
+    image: blockstream/esplora:5601a25ef6a7ffa935f324397ce03adad35db47a
     restart: unless-stopped
     expose:
       - 80
