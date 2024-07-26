@@ -25,7 +25,7 @@ services:
 
   electrs:
     image: getumbrel/electrs:v0.10.2
-    user: 0:0
+    user: "1001:1001"
     restart: always
     expose:
       - 50001
