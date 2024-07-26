@@ -14,8 +14,9 @@ services:
   bitcoind:
     image: lncm/bitcoind:v27.0
     restart: unless-stopped
+    expose:
+      - 8332
     ports:
-      - "8332:8332"
       - "8333:8333"
     volumes:
       - "bitcoind_data:/data/.bitcoin"
