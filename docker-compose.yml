@@ -38,6 +38,8 @@ services:
       ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
       ELECTRS_DB_DIR: "/data/db"
+    depends_on:
+      - bitcoind
     networks:
       - docknode-esplora
 
