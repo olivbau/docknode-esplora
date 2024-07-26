@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 networks:
   docknode-esplora:
@@ -34,14 +34,14 @@ services:
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "bitcoin"
-      ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
-      ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
+      ELECTRS_DAEMON_RPC_ADDR: "http://bitcoind:8332"
+      ELECTRS_DAEMON_P2P_ADDR: "http://bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
       ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookie"
-    depends_on:
-      - bitcoind
     networks:
       - docknode-esplora
+    depends_on:
+      - bitcoind
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
