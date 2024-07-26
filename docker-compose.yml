@@ -1,5 +1,3 @@
-version: "3"
-
 networks:
   docknode-esplora:
     driver: bridge
