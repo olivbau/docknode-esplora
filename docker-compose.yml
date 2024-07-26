@@ -7,11 +7,14 @@ volumes:
   caddy_config:
   bitcoind_data:
   electrs_data:
+  mempool_backend_data:
+  mariadb_data:
 
 services:
   bitcoind:
     image: lncm/bitcoind:v27.0
     restart: unless-stopped
+    stop_grace_period: 15m
     expose:
       - 8332
     ports:
@@ -21,12 +24,15 @@ services:
     command:
       - "--rpcbind=0.0.0.0"
       - "--rpcallowip=172.18.0.0/16"
+      - "--txindex=1"
+      - "--server"
     networks:
       - docknode-esplora
 
   electrs:
     image: getumbrel/electrs:v0.10.2
-    restart: always
+    restart: unless-stopped
+    stop_grace_period: 15m
     user: 0:0
     expose:
       - 50001
@@ -45,6 +51,52 @@ services:
       - docknode-esplora
     depends_on:
       - bitcoind
+
+  mempool_backend:
+    image: mempool/backend:latest
+    restart: unless-stopped
+    stop_grace_period: 1m
+    volumes:
+      - "bitcoind_data:/data/.bitcoin:ro"
+      - "mempool_backend_data:/backend/cache"
+    expose:
+      - 8999
+    environment:
+      MEMPOOL_BACKEND: "electrum"
+      ELECTRUM_HOST: "electrs"
+      ELECTRUM_PORT: "50001"
+      ELECTRUM_TLS: "false"
+      CORE_RPC_HOST: "bitcoind"
+      CORE_RPC_PORT: "8332"
+      CORE_RPC_COOKIE: true
+      CORE_RPC_COOKIE_PATH: "/data/.bitcoin/.cookie"
+      DATABASE_ENABLED: "true"
+      DATABASE_HOST: "mariadb"
+      DATABASE_PORT: "3306"
+      DATABASE_DATABASE: "mempool"
+      DATABASE_USERNAME: "mempool"
+      DATABASE_PASSWORD: "mempool"
+      STATISTICS_ENABLED: "true"
+    command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
+    networks:
+      - docknode-esplora
+    depends_on:
+      - mariadb
+      - electrs
+
+  mariadb:
+    image: mariadb:10.5.21
+    restart: on-failure
+    stop_grace_period: 1m
+    environment:
+      MYSQL_DATABASE: "mempool"
+      MYSQL_USER: "mempool"
+      MYSQL_PASSWORD: "mempool"
+      MYSQL_ROOT_PASSWORD: "admin"
+    volumes:
+      - "mariadb_data:/var/lib/mysql"
+    expose:
+      - 3306
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
