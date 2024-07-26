@@ -13,6 +13,7 @@ volumes:
 services:
   bitcoind:
     image: lncm/bitcoind:v27.0
+    user: "1001:1001"
     restart: unless-stopped
     expose:
       - 8332
@@ -25,19 +26,20 @@ services:
 
   electrs:
     image: getumbrel/electrs:v0.10.2
-    user: "0:0"
+    user: "1001:1001"
     restart: always
     expose:
       - 50001
     volumes:
-      - "bitcoind_data:/root/.bitcoin:ro"
-      - "electrs_data:/home/user/db"
+      - "bitcoind_data:/data/.bitcoin:ro"
+      - "electrs_data:/data"
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "bitcoin"
       ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
       ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
+      ELECTRS_DB_DIR: "/data/db"
     depends_on:
       - bitcoind
     networks:
