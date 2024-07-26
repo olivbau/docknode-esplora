@@ -21,7 +21,7 @@ services:
     volumes:
       - "bitcoind_data:/data/.bitcoin"
     command:
-      - "--rpcbind=0.0.0.0"
+      - "--rpcallowip=172.18.0.0/16"
     networks:
       - docknode-esplora
 
