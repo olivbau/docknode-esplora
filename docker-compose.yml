@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 networks:
   docknode-esplora:
@@ -7,19 +7,37 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
-  esplora_data:
+  bitcoind_data:
+  electrs_data:
 
 services:
-  esplora:
-    image: blockstream/esplora:5601a25ef6a7ffa935f324397ce03adad35db47a
+  bitcoind:
+    image: lncm/bitcoind:v27.0
     restart: unless-stopped
     expose:
-      - 80
+      - 8332
     ports:
-      - "50001:50001"
+      - "8333:8333"
     volumes:
-      - esplora_data:/data
-    command: /srv/explorer/run.sh bitcoin-mainnet explorer
+      - "bitcoind_data:/data/.bitcoin"
+    networks:
+      - docknode-esplora
+
+  electrs:
+    image: getumbrel/electrs:v0.10.2
+    restart: always
+    expose:
+      - 50001
+    volumes:
+      - "bitcoind_data:/data/.bitcoin:ro"
+      - "electrs_data:/data"
+    environment:
+      ELECTRS_LOG_FILTERS: "INFO"
+      ELECTRS_NETWORK: "bitcoin"
+      ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
+      ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
+      ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
+      ELECTRS_DB_DIR: "/data/db"
     networks:
       - docknode-esplora
 
