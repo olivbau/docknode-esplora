@@ -14,10 +14,8 @@ services:
   bitcoind:
     image: lncm/bitcoind:v27.0
     restart: unless-stopped
-    expose:
-      - 8332
-      - 8333
     ports:
+      - "8332:8332"
       - "8333:8333"
     volumes:
       - "bitcoind_data:/data/.bitcoin"
@@ -34,8 +32,8 @@ services:
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "bitcoin"
-      ELECTRS_DAEMON_RPC_ADDR: "http://bitcoind:8332"
-      ELECTRS_DAEMON_P2P_ADDR: "http://bitcoind:8333"
+      ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
+      ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
       ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookie"
     networks:
