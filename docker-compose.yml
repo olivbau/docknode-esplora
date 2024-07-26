@@ -35,7 +35,7 @@ services:
       ELECTRS_DAEMON_RPC_ADDR: "bitcoind:8332"
       ELECTRS_DAEMON_P2P_ADDR: "bitcoind:8333"
       ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:50001"
-      ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookiess"
+      ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookie"
     networks:
       - docknode-esplora
     depends_on:
