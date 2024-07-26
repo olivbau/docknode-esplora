@@ -31,7 +31,7 @@ services:
       - 50001
     volumes:
       - "bitcoind_data:/data/.bitcoin:ro"
-      - "electrs_data:/data/db"
+      - "electrs_data:./db"
     environment:
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "bitcoin"
