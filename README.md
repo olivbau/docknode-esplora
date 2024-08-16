@@ -1,8 +1,8 @@
-# Docknode Esplora
+# Docknode Mempool
 
 ## Metrics
 
-- Esplora: `https://mydomain.com`
+- Mempool: `https://mydomain.com`
 - Nodeexporter endpoint: `https://mydomain.com:9100/metrics`
 
 ## Install
@@ -20,8 +20,8 @@ apt install -y git ufw
 1. Clone the repository
 
 ```bash
-git clone https://github.com/olivbau/docknode-esplora.git
-cd docknode-esplora
+git clone https://github.com/olivbau/docknode-mempool.git
+cd docknode-mempool
 ```
 
 2. Configure environement variables
@@ -50,7 +50,7 @@ sudo systemctl status ufw
 ```bash
 docker compose pull
 docker compose up -d
-docker logs -f docknode-btc-caddy-1 --since 5m
-docker logs -f docknode-btc-esplora-1 --since 5m
+docker logs -f docknode-mempool-caddy-1 --since 5m
+docker logs -f docknode-mempool-mempool_backend-1 --since 5m
 docker compose down
 ```
