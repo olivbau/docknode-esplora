@@ -1,5 +1,5 @@
 networks:
-  docknode-esplora:
+  docknode-mempool:
     driver: bridge
 
 volumes:
@@ -27,7 +27,7 @@ services:
       - "--txindex=1"
       - "--server"
     networks:
-      - docknode-esplora
+      - docknode-mempool
 
   electrs:
     image: getumbrel/electrs:v0.10.2
@@ -48,7 +48,7 @@ services:
       ELECTRS_COOKIE_FILE: "/data/.bitcoin/.cookie"
       ELECTRS_DB_DIR: "/data/db"
     networks:
-      - docknode-esplora
+      - docknode-mempool
     depends_on:
       - bitcoind
 
@@ -79,7 +79,7 @@ services:
       STATISTICS_ENABLED: "true"
     command: "./wait-for-it.sh mariadb:3306 --timeout=720 --strict -- ./start.sh"
     networks:
-      - docknode-esplora
+      - docknode-mempool
     depends_on:
       - mariadb
       - electrs
@@ -104,7 +104,7 @@ services:
   #     BTCEXP_SLOW_DEVICE_MODE: "false"
   #     BTCEXP_NO_INMEMORY_RPC_CACHE: "false"
   #   networks:
-  #     - docknode-esplora
+  #     - docknode-mempool
   #   depends_on:
   #     - electrs
   #     - bitcoind
@@ -123,7 +123,7 @@ services:
     expose:
       - 3306
     networks:
-      - docknode-esplora
+      - docknode-mempool
 
   nodeexporter:
     image: prom/node-exporter:v1.4.0
@@ -140,7 +140,7 @@ services:
     expose:
       - 9100
     networks:
-      - docknode-esplora
+      - docknode-mempool
 
   caddy:
     image: caddy:2-alpine
@@ -157,4 +157,4 @@ services:
       - RPC_USERS=${RPC_USERS:?err}
       - HOST=${HOST:?err}
     networks:
-      - docknode-esplora
+      - docknode-mempool
