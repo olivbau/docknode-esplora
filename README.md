@@ -52,5 +52,6 @@ docker compose pull
 docker compose up -d
 docker logs -f docknode-mempool-caddy-1 --since 5m
 docker logs -f docknode-mempool-mempool_backend-1 --since 5m
+docker logs -f docknode-mempool-bitcoind-1 --since 5m
 docker compose down
 ```
