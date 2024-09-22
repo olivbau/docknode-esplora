@@ -32,7 +32,7 @@ services:
   electrs:
     image: getumbrel/electrs:v0.10.2
     restart: unless-stopped
-    stop_grace_period: 15m
+    stop_grace_period: 2m
     user: 0:0
     expose:
       - 50001
