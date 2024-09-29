@@ -56,6 +56,7 @@ services:
     image: mempool/backend:latest
     restart: unless-stopped
     stop_grace_period: 1m
+    user: "1000:1000"
     volumes:
       - "bitcoind_data:/data/.bitcoin:ro"
       - "mempool_backend_data:/backend/cache"
